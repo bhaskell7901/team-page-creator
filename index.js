@@ -27,8 +27,50 @@ function getTeamAnswers(){
 
 // getTeamAnswers();
 
-test1 = new Manager("Brandon Haskell", 1001, "gmail@gmail.com", "30F");
-test2 = new Engineer("Franklin Roosevelt", 1002, "frank@gmail.com", "bhaskell7901");
-test3 = new Intern("Sarah Berryman", 1003, "saber@gmail.com", "Univerisyt of North Dakota");
 
-console.log(getHtmlPage("Team Name Here", test1.getHtmlCard(), test2.getHtmlCard(), test3.getHtmlCard()));
+// For testing large employee sets
+const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+function generateString(length) {
+    let result = '';
+    const charactersLength = characters.length;
+    for ( let i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+
+    return result;
+}
+
+var emplArr = [];
+for(var i = 0; i < 1000; i++){
+    emplArr.push(new Manager(generateString(12), 1000 + i, generateString(16), generateString(16)));
+}
+
+for(var i = 0; i < 1000; i++){
+    emplArr.push(new Engineer(generateString(12), 2000 + i, generateString(16), generateString(16)));
+}
+
+for(var i = 0; i < 1000; i++){
+    emplArr.push(new Intern(generateString(12), 3000 + i, generateString(16), generateString(16)));
+}
+
+const htmlCardPromises = emplArr.map((empl) => empl.getHtmlCard());
+
+Promise.all(htmlCardPromises)
+    .then( () =>{
+        let managerCards = emplArr.filter((empl) => empl.getRole() === "Manager")
+                                  .reduce((acc, mgr) => {return acc.concat(mgr.htmlCard)}, "");
+        let engineerCards = emplArr.filter((empl) => empl.getRole() === "Engineer")
+                                  .reduce((acc, eng) => {return acc.concat(eng.htmlCard)}, "");
+        let internCards = emplArr.filter((empl) => empl.getRole() === "Intern")
+                                  .reduce((acc, intrn) => {return acc.concat(intrn.htmlCard)}, "");
+        let data = getHtmlPage("Team Name Here", managerCards, engineerCards, internCards);
+
+        fs.writeFile("./dist/templates/team.html", data, done);
+    })
+    .catch((err) => console.log(err));
+
+
+function done(){
+    console.log("Program complete");
+}
