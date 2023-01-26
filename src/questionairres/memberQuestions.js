@@ -2,12 +2,12 @@ const memberQuestions = [
     ,{   // Employee name
         type: "input",
         message: "What is the team member's name?",
-        name: "memberName"
+        name: "name"
     }
     ,{   // Employee ID
         type: "input",
         message: "What is the team member's employee ID?",
-        name: "emplId",
+        name: "id",
         validate: (input) => {
           if( Number.parseInt(input) > 0 ) return true;
           return "Please enter the employee's numeric ID.";
@@ -16,7 +16,7 @@ const memberQuestions = [
     ,{   // Email
         type: "input",
         message: "Team member's email address?",
-        name: "qEmail",
+        name: "email",
         default: () => {},
         validate: (qEmail) => {
             if ( /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(qEmail) ) return true;
@@ -44,7 +44,7 @@ const memberQuestions = [
     ,{   // Intern School
         type: "input",
         message: "What is the intern's school?",
-        name: "emplSchool",
+        name: "schoolName",
         when: (answer) => {
             answer.emplType === "Engineer"
         }

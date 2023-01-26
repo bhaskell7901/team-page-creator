@@ -11,7 +11,7 @@ const managerQuestions = [
     ,{   // Manager name
         type: "input",
         message: "What is the managers name?",
-        name: "mgrName",
+        name: "name",
         validate: (input) => {
           if(input.length < 2) return "Please enter a meaningful description.";
           else return true;
@@ -20,7 +20,7 @@ const managerQuestions = [
     ,{   // Employee ID
         type: "input",
         message: "What is the manager's employee ID?",
-        name: "emplId",
+        name: "id",
         validate: (input) => {
           if( Number.parseInt(input) > 0 ) return true;
           return "Please enter the employee's numeric ID.";
@@ -29,7 +29,7 @@ const managerQuestions = [
     ,{   // Email
         type: "input",
         message: "Manager's email address?",
-        name: "qEmail",
+        name: "email",
         default: () => {},
         validate: (qEmail) => {
             if ( /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(qEmail) ) return true;
@@ -39,7 +39,7 @@ const managerQuestions = [
     ,{   // Room
         type: "input",
         message: "What office is the manager in?",
-        name: "usageDesc",
+        name: "room",
         validate: (input) => {
           if(input.length < 1 ) return "Please enter an office number";
           else return true;
