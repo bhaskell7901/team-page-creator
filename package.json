@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/bhaskell7901/team-page-creator#readme",
   "dependencies": {
-    "inquirer": "^8.2.4"
-  },
-  "devDependencies": {}
+    "inquirer": "^8.2.4",
+    "inquirer-loop": "^0.3.0"
+  }
 }
