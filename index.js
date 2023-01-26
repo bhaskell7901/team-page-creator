@@ -1,114 +1,18 @@
+const Employee = require('./lib/classes/Employee');
+const Manager = require('./lib/classes/Manager');
+const Engineer = require('./lib/classes/Engineer');
+const Intern = require('./lib/classes/Intern');
+const getHtmlPage = require('./dist/templates/html');
+
+const fs = require('fs');
+const questions = require('./lib/utils/questions');
 const inquirer = require('inquirer');
-// const managerQuestions = require('./src/questionairres/managerQuestions');
-// const memberQuestions = require('./src/questionairres/memberQuestions');
-
-
 inquirer.registerPrompt("loop", require("inquirer-loop")(inquirer))
 
 function getTeamAnswers(){
 
     inquirer
-        .prompt([
-            {   // Team name
-                type: "input",
-                message: "What is the team name?",
-                name: "teamName",
-                validate: (input) => {
-                  if(input.length < 5) return "Please enter a meaningful description.";
-                  else return true;
-                }
-            }
-            ,{   // Manager name
-                type: "input",
-                message: "What is the managers name?",
-                name: "name",
-                validate: (input) => {
-                  if(input.length < 2) return "Please enter a meaningful description.";
-                  else return true;
-                }
-            }
-            ,{   // Manager ID
-                type: "input",
-                message: "What is the manager's employee ID?",
-                name: "id",
-                validate: (input) => {
-                  if( Number.parseInt(input) > 0 ) return true;
-                  return "Please enter the employee's numeric ID.";
-                }
-            }
-            ,{   // Manager Email
-                type: "input",
-                message: "Manager's email address?",
-                name: "email",
-                default: () => {},
-                validate: (qEmail) => {
-                    if ( /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(qEmail) ) return true;
-                    return " <-- Please enter a valid email";
-                }
-            }
-            ,{   // Office
-                type: "input",
-                message: "What office is the manager in?",
-                name: "officeNum",
-                validate: (input) => {
-                  if(input.length < 1 ) return "Please enter an office number";
-                  else return true;
-                }
-            }
-            ,{  // Employees under manger
-                type: "loop",
-                name: "employees",
-                message: "Add employees?",
-                questions: [
-                    {   // Employee name
-                        type: "input",
-                        message: "What is the team member's name?",
-                        name: "name"
-                    }
-                    ,{   // Employee ID
-                        type: "input",
-                        message: "What is the team member's employee ID?",
-                        name: "id",
-                        validate: (input) => {
-                          if( Number.parseInt(input) > 0 ) return true;
-                          return "Please enter the employee's numeric ID.";
-                        }
-                    }
-                    ,{   // Email
-                        type: "input",
-                        message: "Team member's email address?",
-                        name: "email",
-                        default: () => {},
-                        validate: (qEmail) => {
-                            if ( /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(qEmail) ) return true;
-                            return " <-- Please enter a valid email";
-                        }
-                    }
-                    ,{   // Engineer / Intern ?
-                        type: "list",
-                        message: "Is the team member an Engineer or Intern?",
-                        name: "emplType",
-                        choices: [ "Engineer", "Intern" ]
-                    }
-                    ,{   // Engineer GitHub
-                        type: "input",
-                        message: "What office is the Engineer's GitHub login?",
-                        name: "gitHubLogin",
-                        when: (answer) => answer.emplType === "Engineer",
-                        validate: (input) => {
-                          if(input.length < 3 ) return "Please enter a valid GitHub login";
-                          else return true;
-                        }
-                    }
-                    ,{   // Intern School
-                        type: "input",
-                        message: "What is the intern's school?",
-                        name: "schoolName",
-                        when: (answer) => answer.emplType === "Intern"
-                    }
-                ]
-            }
-        ])
+        .prompt(questions)
         .then((data) => {
             console.log(data);
         })
@@ -121,4 +25,52 @@ function getTeamAnswers(){
         });
 }
 
-getTeamAnswers();
+// getTeamAnswers();
+
+
+// For testing large employee sets
+const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+function generateString(length) {
+    let result = '';
+    const charactersLength = characters.length;
+    for ( let i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+
+    return result;
+}
+
+var emplArr = [];
+for(var i = 0; i < 1000; i++){
+    emplArr.push(new Manager(generateString(12), 1000 + i, generateString(16), generateString(16)));
+}
+
+for(var i = 0; i < 1000; i++){
+    emplArr.push(new Engineer(generateString(12), 2000 + i, generateString(16), generateString(16)));
+}
+
+for(var i = 0; i < 1000; i++){
+    emplArr.push(new Intern(generateString(12), 3000 + i, generateString(16), generateString(16)));
+}
+
+const htmlCardPromises = emplArr.map((empl) => empl.getHtmlCard());
+
+Promise.all(htmlCardPromises)
+    .then( () =>{
+        let managerCards = emplArr.filter((empl) => empl.getRole() === "Manager")
+                                  .reduce((acc, mgr) => {return acc.concat(mgr.htmlCard)}, "");
+        let engineerCards = emplArr.filter((empl) => empl.getRole() === "Engineer")
+                                  .reduce((acc, eng) => {return acc.concat(eng.htmlCard)}, "");
+        let internCards = emplArr.filter((empl) => empl.getRole() === "Intern")
+                                  .reduce((acc, intrn) => {return acc.concat(intrn.htmlCard)}, "");
+        let data = getHtmlPage("Team Name Here", managerCards, engineerCards, internCards);
+
+        fs.writeFile("./dist/templates/team.html", data, done);
+    })
+    .catch((err) => console.log(err));
+
+
+function done(){
+    console.log("Program complete");
+}
