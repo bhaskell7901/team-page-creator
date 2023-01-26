@@ -39,3 +39,5 @@ function getHtmlPage(teamName, managerCards, engineerCards, internCards) {
     </body>
 </html>`;
 }
+
+module.exports = getHtmlPage;
