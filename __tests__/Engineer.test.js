@@ -20,11 +20,11 @@ describe("class: Engineer", () => {
             expect(engineer.hasOwnProperty("email")).toBeTruthy();
             expect(typeof engineer.email).toBe("string");
         });
-        it("Has a 'gitHubLogin' property as a string", () => {
+        it("Has a 'gitHub' property as a string", () => {
             const engineer = new Engineer("Brandon", 1001, "gmail@gmail.com", "bhaskell7901");
 
-            expect(engineer.hasOwnProperty("gitHubLogin")).toBeTruthy();
-            expect(typeof engineer.gitHubLogin).toBe("string");
+            expect(engineer.hasOwnProperty("gitHub")).toBeTruthy();
+            expect(typeof engineer.gitHub).toBe("string");
         });
     });
     describe("Engineer Methods", () => {
@@ -60,12 +60,12 @@ describe("class: Engineer", () => {
                 expect(engineer.getRole()).toBe(role);
             });
         });
-        describe("getGetHubLogin()", () => {
+        describe("getGetHub()", () => {
             it("Should return the 'gitHubLogin' of Engineer", () => {
                 const engineer = new Engineer("Brandon", 1001, "gmail@gmail.com", "bhaskell7901");
-                const gitHubLogin = "bhaskell7901";
+                const gitHub = "bhaskell7901";
 
-                expect(engineer.getGitHubLogin()).toBe(gitHubLogin);
+                expect(engineer.getGitHub()).toBe(gitHub);
             });
         });
     });

@@ -20,11 +20,11 @@ describe("class: Intern", () => {
             expect(intern.hasOwnProperty("email")).toBeTruthy();
             expect(typeof intern.email).toBe("string");
         });
-        it("Has a 'schoolName' property as a string", () => {
+        it("Has a 'school' property as a string", () => {
             const intern = new Intern("Brandon", 1001, "gmail@gmail.com", "University of North Dakota");
 
-            expect(intern.hasOwnProperty("schoolName")).toBeTruthy();
-            expect(typeof intern.schoolName).toBe("string");
+            expect(intern.hasOwnProperty("school")).toBeTruthy();
+            expect(typeof intern.school).toBe("string");
         });
     });
     describe("Intern Methods", () => {
@@ -61,11 +61,11 @@ describe("class: Intern", () => {
             });
         });
         describe("getSchool()", () => {
-            it("Should return the 'schoolName' of Intern", () => {
+            it("Should return the 'school' of Intern", () => {
                 const intern = new Intern("Brandon", 1001, "gmail@gmail.com", "University of North Dakota");
-                const schoolName = "University of North Dakota";
+                const school = "University of North Dakota";
 
-                expect(intern.getSchool()).toBe(schoolName);
+                expect(intern.getSchool()).toBe(school);
             });
         });
     });
