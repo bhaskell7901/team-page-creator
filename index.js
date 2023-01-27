@@ -48,7 +48,7 @@ function getTeamAnswers(){
                     let data = getHtmlPage(`${teamName}`, managerCards, engineerCards, internCards);
 
                     // Print to file
-                    fs.writeFile(`./dist/templates/${teamName.split(" ").join("-").toLowerCase()}.html`, data, done = () => {
+                    fs.writeFile(`./dist/${teamName.split(" ").join("-").toLowerCase()}.html`, data, done = () => {
                         console.log(`\n${teamName.split(" ").join("-").toLowerCase()}.html created\n`);
                     });
                 })
