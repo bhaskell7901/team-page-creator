@@ -20,10 +20,10 @@ describe("class: Manager", () => {
             expect(manager.hasOwnProperty("email")).toBeTruthy();
             expect(typeof manager.email).toBe("string");
         });
-        it("Has an 'officeNumber' property as a string", () => {
+        it("Has an 'officeNum' property as a string", () => {
             const manager = new Manager("Brandon", 1001, "gmail@gmail.com", "20F");
 
-            expect(manager.hasOwnProperty("officeNumber")).toBeTruthy();
+            expect(manager.hasOwnProperty("officeNum")).toBeTruthy();
             expect(typeof manager.email).toBe("string");
         });
     });
@@ -60,12 +60,12 @@ describe("class: Manager", () => {
                 expect(manager.getRole()).toBe(role);
             });
         });
-        describe("getOfficeNumber()", () => {
-            it("Should return the 'officeNumber' of Manager", () => {
+        describe("getOfficeNum()", () => {
+            it("Should return the 'officeNum' of Manager", () => {
                 const manager = new Manager("Brandon", 1001, "gmail@gmail.com", "20F");
-                const officeNumber = "20F";
+                const officeNum = "20F";
 
-                expect(manager.getOfficeNumber()).toBe(officeNumber);
+                expect(manager.getOfficeNum()).toBe(officeNum);
             });
         });
     });
