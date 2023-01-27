@@ -20,15 +20,15 @@ function getTeamAnswers(){
             const teamName = data.teamName;
 
             // Add Manager
-            emplArr.push(new Manager(data.name, data.id, data.email, data.officeNum));
+            emplArr.push(new Manager(data.name, data.id, data.email, data.officeNumber));
             
             // Add Engineers and Inters
             data.employees.forEach( elm => {
                 if( elm.emplType === "Engineer" ){
-                    emplArr.push(new Engineer(elm.name, elm.id, elm.email, elm.gitHubLogin));
+                    emplArr.push(new Engineer(elm.name, elm.id, elm.email, elm.gitHub));
                 }
                 if( elm.emplType === "Intern" ){
-                    emplArr.push(new Intern(elm.name, elm.id, elm.email, elm.schoolName));
+                    emplArr.push(new Intern(elm.name, elm.id, elm.email, elm.school));
                 }
             });
 
